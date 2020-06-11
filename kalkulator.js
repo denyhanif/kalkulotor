@@ -29,6 +29,7 @@ function inputDigit(digit) {
     }
 }
 
+
 function ubahKeNegatif() {
     if (calculator.displayNumber === '0') {
         return;
@@ -50,6 +51,29 @@ function mengaktifkanOperator(operator) {
 
 }
 
+function performCalculation() {
+    if (calculator.firstNumber == null || calculator.operator == null) {
+        alert("anda belum mentapkan operator");
+        return;
+    }
+    let result = 0;
+    if (calculator.operator === "+") {
+        result = parseInt(calculator.firstNumber) + parseInt(calculator.displayNumber);
+    } else {
+        result = parseInt(calculator.firstNumber) - parseInt(calculator.displayNumber)
+    }
+
+    const history = {
+        firstNumber: calculator.firstNumber,
+        secondNumber: calculator.displayNumber,
+        operator: calculator.operator,
+        result: result
+    }
+    putHistory(history);
+    calculator.displayNumber = result;
+    renderHistory();
+}
+
 const buttons = document.querySelectorAll(".button");
 for (let button of buttons) {
 
@@ -68,6 +92,7 @@ for (let button of buttons) {
             return;
         }
         if (target.classList.contains('equals')) {
+
             performCalculation();
             updateDisplay();
             return;
@@ -78,6 +103,7 @@ for (let button of buttons) {
             updateDisplay();
             return;
         }
+
         inputDigit(target.innerText);
         updateDisplay()
     });
